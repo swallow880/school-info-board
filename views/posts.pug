@@ -1,0 +1,44 @@
+doctype html
+html(lang="ja")
+  head
+    meta(charset="UTF-8")
+    title 学校・地域連携 安全情報共有ボード
+  body
+    h1 学校・地域連携 安全情報共有ボード
+    
+    h2 新規情報の共有
+    form(method="post" action="/posts")
+      div(style="margin-bottom: 10px;")
+        label(for="category") 情報種別：
+        select(name="category" required)
+          option(value="クレーム（生徒マナー等）") クレーム（生徒マナー等）
+          option(value="防犯・不審者情報") 防犯・不審者情報
+          option(value="その他・連絡事項") その他・連絡事項
+      
+      div(style="margin-bottom: 10px;")
+        label(for="incidentDate") 発生日：
+        input(type="date" name="incidentDate" required)
+      
+      div(style="margin-bottom: 10px;")
+        label(for="title") 件名：
+        input(type="text" name="title" style="width: 300px;" required)
+      
+      div(style="margin-bottom: 10px;")
+        //- ここに style="vertical-align: top;" を追加して上揃えに修正
+        label(for="content" style="vertical-align: top;") 詳細内容：
+        textarea(name="content" rows="4" cols="40" required)
+      
+      div
+        input(type="hidden" name="oneTimeToken" value=oneTimeToken)
+        button(type="submit") 共有する
+
+    hr
+
+    h2 共有情報一覧
+    each post in posts
+      div(style="border: 1px solid #999; padding: 10px; margin-bottom: 15px; border-radius: 5px; background-color: #f9f9f9;")
+        h3(style="margin-top: 0;") 【#{post.category}】 #{post.title}
+        p 発生日: #{post.incidentDate}
+        p 報告者: #{post.postedBy}
+        p 詳細: #{post.content}
+        p(style="font-size: 0.8em; color: #666;") 投稿日時: #{post.createdAt}

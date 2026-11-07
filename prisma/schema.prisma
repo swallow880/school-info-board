@@ -1,0 +1,21 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Post {
+  id        Int      @id @default(autoincrement())
+  incidentDate String   // ←追加：発生日（カレンダーの日付を文字として保存）
+  title     String   // ←追加：件名
+  category  String   // ←追加：情報種別
+  content   String   // 本文（元からあるもの）
+  postedBy  String   // 投稿者（元からあるもの）
+  createdAt DateTime @default(now()) // 投稿日時（元からあるもの）
+}
