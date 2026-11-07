@@ -5,6 +5,8 @@ html(lang="ja")
     title 学校・地域連携 安全情報共有ボード
   body
     h1 学校・地域連携 安全情報共有ボード
+    div(style="margin-bottom: 15px;")
+      a(href="/logout") ログオフ
     
     h2 新規情報の共有
     form(method="post" action="/posts")
@@ -42,3 +44,9 @@ html(lang="ja")
         p 報告者: #{post.postedBy}
         p 詳細: #{post.content}
         p(style="font-size: 0.8em; color: #666;") 投稿日時: #{post.createdAt}
+        - const isDeletable = (user === post.postedBy || user === 'admin')
+        if isDeletable
+          form(method="post" action="/posts/delete")
+            input(type="hidden" name="id" value=post.id)
+            input(type="hidden" name="oneTimeToken" value=oneTimeToken)
+            button(type="submit") 削除
